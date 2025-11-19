@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "module": "none",
+    "module": "es2020",
     "strict": true,
     "rootDir": "./src",
     "outDir": "./dist",
-    "lib": ["dom", "es2017"]
+    "lib": ["dom", "es2017"],
+    "moduleResolution": "node"
   },
   "include": ["src"]
 }

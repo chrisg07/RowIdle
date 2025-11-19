@@ -1,8 +1,12 @@
-// --- Config / "fake physics" ------------------------------
-const V_LIFTOFF = 100;    // m/s
-const V_ORBIT = 8000;     // m/s
-const V_ESCAPE = 12000;   // m/s
-const ALT_SCALE = 0.001;
+import {
+  V_LIFTOFF,
+  V_ORBIT,
+  V_ESCAPE,
+  getSpeed,
+  getAltitude,
+  getPhase,
+  getUpgradeCost
+} from "./physics";
 
 const SAVE_KEY = "orbital-rower-save-v1";
 
@@ -19,29 +23,6 @@ interface GameState {
   milestones: Milestones;
 }
 
-function getSpeed(rowLevel: number): number {
-  const baseSpeed = 1;
-  return baseSpeed * Math.pow(1.25, rowLevel);
-}
-
-function getAltitude(speed: number): number {
-  if (speed <= V_LIFTOFF) return 0;
-  const dv = speed - V_LIFTOFF;
-  return dv * dv * ALT_SCALE;
-}
-
-function getPhase(speed: number): string {
-  if (speed >= V_ESCAPE) return "Escape Velocity";
-  if (speed >= V_ORBIT) return "Orbit";
-  if (speed >= V_LIFTOFF) return "Flight";
-  return "Water";
-}
-
-function getUpgradeCost(level: number): number {
-  return Math.floor(10 * Math.pow(1.8, level));
-}
-
-// --- Game state -------------------------------------------
 let state: GameState = {
   energy: 0,
   rowLevel: 0,
@@ -53,7 +34,6 @@ let state: GameState = {
   }
 };
 
-// --- DOM refs ---------------------------------------------
 const energyEl = document.getElementById("energy-display") as HTMLSpanElement;
 const rowLevelEl = document.getElementById("row-level-display") as HTMLSpanElement;
 const speedEl = document.getElementById("speed-display") as HTMLSpanElement;
@@ -68,7 +48,6 @@ const upgradeCostEl = document.getElementById("upgrade-strength-cost") as HTMLSp
 const milestonesSection = document.getElementById("milestones-section") as HTMLDivElement;
 const milestonesList = document.getElementById("milestones-list") as HTMLUListElement;
 
-// --- Save / load ------------------------------------------
 function saveGame(): void {
   try {
     localStorage.setItem(SAVE_KEY, JSON.stringify(state));
@@ -92,7 +71,6 @@ function loadGame(): void {
   }
 }
 
-// --- UI update --------------------------------------------
 function addMilestone(text: string, key: keyof Milestones): void {
   if (state.milestones[key]) return;
   state.milestones[key] = true;
@@ -152,7 +130,7 @@ function updateUI(): void {
 
 // --- Input handlers ---------------------------------------
 rowBtn.addEventListener("click", () => {
-  state.energy += 1;
+  state.energy += 1 + state.rowLevel;
   updateUI();
 });
 
