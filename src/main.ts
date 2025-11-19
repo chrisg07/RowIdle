@@ -1,3 +1,4 @@
+import { loadGame, saveGame } from "./storage";
 import {
   V_LIFTOFF,
   V_ORBIT,
@@ -8,7 +9,7 @@ import {
   getUpgradeCost
 } from "./physics";
 
-const SAVE_KEY = "orbital-rower-save-v1";
+export const SAVE_KEY = "orbital-rower-save-v1";
 
 interface Milestones {
   liftoff: boolean;
@@ -17,13 +18,13 @@ interface Milestones {
   firstUpgrade: boolean;
 }
 
-interface GameState {
+export interface GameState {
   energy: number;
   rowLevel: number;
   milestones: Milestones;
 }
 
-let state: GameState = {
+export let state: GameState = {
   energy: 0,
   rowLevel: 0,
   milestones: {
@@ -48,28 +49,7 @@ const upgradeCostEl = document.getElementById("upgrade-strength-cost") as HTMLSp
 const milestonesSection = document.getElementById("milestones-section") as HTMLDivElement;
 const milestonesList = document.getElementById("milestones-list") as HTMLUListElement;
 
-function saveGame(): void {
-  try {
-    localStorage.setItem(SAVE_KEY, JSON.stringify(state));
-  } catch (e) {
-    console.warn("Save failed:", e);
-  }
-}
-
-function loadGame(): void {
-  try {
-    const raw = localStorage.getItem(SAVE_KEY);
-    if (!raw) return;
-    const data = JSON.parse(raw) as Partial<GameState>;
-    if (typeof data.energy === "number") state.energy = data.energy;
-    if (typeof data.rowLevel === "number") state.rowLevel = data.rowLevel;
-    if (data.milestones) {
-      state.milestones = { ...state.milestones, ...data.milestones };
-    }
-  } catch (e) {
-    console.warn("Load failed:", e);
-  }
-}
+const rowerVisualEl = document.getElementById("rower-visual") as HTMLPreElement | null;
 
 function addMilestone(text: string, key: keyof Milestones): void {
   if (state.milestones[key]) return;
@@ -79,6 +59,29 @@ function addMilestone(text: string, key: keyof Milestones): void {
   milestonesList.appendChild(li);
   milestonesSection.classList.remove("hidden");
 }
+
+const ROW_FRAMES = [
+  "~~~ \\o/ ~~~",
+  "~~~ -o- ~~~",
+  "~~~ /o\\ ~~~",
+  "~~~ -o- ~~~"
+];
+let rowFrameIndex = 0;
+
+function updateRowerVisual(speed: number): void {
+  if (!rowerVisualEl) return;
+
+  if (speed < 1) {
+    // "Idle" pose when you're basically not moving
+    rowerVisualEl.textContent = "|o   ~~~";
+    return;
+  }
+
+  // Advance one frame per update when moving
+  rowFrameIndex = (rowFrameIndex + 1) % ROW_FRAMES.length;
+  rowerVisualEl.textContent = ROW_FRAMES[rowFrameIndex];
+}
+
 
 function updateUI(): void {
   const speed = getSpeed(state.rowLevel);
@@ -126,6 +129,8 @@ function updateUI(): void {
       "firstUpgrade"
     );
   }
+
+  updateRowerVisual(speed);
 }
 
 // --- Input handlers ---------------------------------------

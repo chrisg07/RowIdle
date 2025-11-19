@@ -37,3 +37,102 @@ button:disabled {
     font-size: 0.8rem;
     color: #9ca3af;
 }
+
+#rower-scene {
+  position: relative;
+  width: 260px;
+  height: 120px;
+  margin: 1rem 0 2rem;
+}
+
+#water {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35px;
+  background: linear-gradient(to top, #1d4ed8, #0f172a);
+  border-radius: 8px;
+}
+
+#boat {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  width: 160px;
+  height: 30px;
+  transform: translateX(-50%);
+  background: #92400e;
+  border-radius: 16px 16px 10px 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+
+  /* This will gently bob up/down; we can adjust speed via JS */
+  animation-name: rowerStroke;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: 2s; /* default, will be overridden */
+}
+
+#rower-body {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  transform: translateX(-50%);
+  background: #facc15;
+  border-radius: 50%;
+  box-shadow: 0 -10px 0 0 #f97316; /* fake torso */
+}
+
+/* oars as simple bars that tilt */
+#oar-left, #oar-right {
+  position: absolute;
+  bottom: 16px;
+  width: 80px;
+  height: 4px;
+  background: #fbbf24;
+  transform-origin: 10px 2px;
+}
+
+#oar-left {
+  left: 40px;
+}
+
+#oar-right {
+  right: 40px;
+}
+
+/* Base stroke animation: small rotate + bob */
+@keyframes rowerStroke {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+  25% {
+    transform: translateX(-50%) translateY(-4px);
+  }
+  50% {
+    transform: translateX(-50%) translateY(0);
+  }
+  75% {
+    transform: translateX(-50%) translateY(4px);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.ascii-logo {
+  font-family: "Fira Code", "JetBrains Mono", Consolas, Menlo, Monaco, monospace;
+  white-space: pre;
+  line-height: 1.1;
+  font-size: 12px;  /* tweak to taste */
+  margin-bottom: 1.5rem;
+}
+
+.rower-visual {
+  font-family: Consolas, Menlo, Monaco, monospace;
+  white-space: pre;
+  font-size: 14px;
+  margin: 0.5rem 0 1.5rem;
+}
