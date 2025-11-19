@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Orbital Rower</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #050816;
+      color: #e5e7eb;
+      margin: 2rem;
+      max-width: 640px;
+    }
+    h1 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    button {
+      margin: 0.25rem 0;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.95rem;
+      cursor: pointer;
+      background: #111827;
+      color: #e5e7eb;
+      border: 1px solid #374151;
+      border-radius: 4px;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+    #stats p {
+      margin: 0.15rem 0;
+    }
+    .hidden {
+      display: none;
+    }
+    .note {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+  <h1>Orbital Rower</h1>
+
+  <div id="intro">
+    <p>You are a lone rower with an impossible goal: row so hard you leave the planet.</p>
+  </div>
+
+  <h2>Stats</h2>
+  <div id="stats">
+    <p>Energy: <span id="energy-display">0</span></p>
+    <p>Row Level: <span id="row-level-display">0</span></p>
+    <p>Speed: <span id="speed-display">0</span> m/s</p>
+    <p>Altitude: <span id="altitude-display">0</span> m</p>
+    <p>Phase: <span id="phase-display">Water</span></p>
+  </div>
+
+  <h2>Action</h2>
+  <button id="row-button">Row</button>
+  <p class="note">Click to row and generate energy.</p>
+
+  <div id="upgrades-section" class="hidden">
+    <h2>Upgrades</h2>
+    <button id="upgrade-strength-button">
+      Stronger Stroke (Cost: <span id="upgrade-strength-cost">10</span> energy)
+    </button>
+    <p class="note">Each level massively increases your rowing speed.</p>
+  </div>
+
+  <div id="milestones-section" class="hidden">
+    <h2>Milestones</h2>
+    <ul id="milestones-list"></ul>
+  </div>
+
+  <script>
+    // --- Config / "fake physics" ------------------------------
+    const V_LIFTOFF = 100;    // m/s
+    const V_ORBIT   = 8000;   // m/s
+    const V_ESCAPE  = 12000;  // m/s
+    const ALT_SCALE = 0.001;
+
+    const SAVE_KEY  = "orbital-rower-save-v1";
+
+    function getSpeed(rowLevel) {
+      const baseSpeed = 1;
+      return baseSpeed * Math.pow(1.25, rowLevel);
+    }
+
+    function getAltitude(speed) {
+      if (speed <= V_LIFTOFF) return 0;
+      const dv = speed - V_LIFTOFF;
+      return dv * dv * ALT_SCALE;
+    }
+
+    function getPhase(speed) {
+      if (speed >= V_ESCAPE) return "Escape Velocity";
+      if (speed >= V_ORBIT)  return "Orbit";
+      if (speed >= V_LIFTOFF) return "Flight";
+      return "Water";
+    }
+
+    function getUpgradeCost(level) {
+      return Math.floor(10 * Math.pow(1.8, level));
+    }
+
+    // --- Game state -------------------------------------------
+    let state = {
+      energy: 0,
+      rowLevel: 0,
+      milestones: {
+        liftoff: false,
+        orbit: false,
+        escape: false,
+        firstUpgrade: false
+      }
+    };
+
+    // --- DOM refs ---------------------------------------------
+    const energyEl      = document.getElementById("energy-display");
+    const rowLevelEl    = document.getElementById("row-level-display");
+    const speedEl       = document.getElementById("speed-display");
+    const altitudeEl    = document.getElementById("altitude-display");
+    const phaseEl       = document.getElementById("phase-display");
+
+    const rowBtn        = document.getElementById("row-button");
+    const upgradesSection = document.getElementById("upgrades-section");
+    const upgradeBtn    = document.getElementById("upgrade-strength-button");
+    const upgradeCostEl = document.getElementById("upgrade-strength-cost");
+
+    const milestonesSection = document.getElementById("milestones-section");
+    const milestonesList    = document.getElementById("milestones-list");
+
+    // --- Save / load ------------------------------------------
+    function saveGame() {
+      try {
+        localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+      } catch (e) {
+        console.warn("Save failed:", e);
+      }
+    }
+
+    function loadGame() {
+      try {
+        const raw = localStorage.getItem(SAVE_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (typeof data.energy === "number") state.energy = data.energy;
+        if (typeof data.rowLevel === "number") state.rowLevel = data.rowLevel;
+        if (data.milestones) {
+          state.milestones = Object.assign(state.milestones, data.milestones);
+        }
+      } catch (e) {
+        console.warn("Load failed:", e);
+      }
+    }
+
+    // --- UI update --------------------------------------------
+    function addMilestone(text, key) {
+      if (state.milestones[key]) return;
+      state.milestones[key] = true;
+      const li = document.createElement("li");
+      li.textContent = text;
+      milestonesList.appendChild(li);
+      milestonesSection.classList.remove("hidden");
+    }
+
+    function updateUI() {
+      const speed = getSpeed(state.rowLevel);
+      const altitude = getAltitude(speed);
+      const phase = getPhase(speed);
+
+      energyEl.textContent   = state.energy.toFixed(0);
+      rowLevelEl.textContent = state.rowLevel.toString();
+      speedEl.textContent    = speed.toFixed(2);
+      altitudeEl.textContent = altitude.toFixed(0);
+      phaseEl.textContent    = phase;
+
+      // Show upgrades section after first bit of progress
+      if (state.energy >= 5 || state.rowLevel > 0) {
+        upgradesSection.classList.remove("hidden");
+      }
+
+      // Update upgrade button
+      const cost = getUpgradeCost(state.rowLevel);
+      upgradeCostEl.textContent = cost;
+      upgradeBtn.disabled = state.energy < cost;
+
+      // Milestones
+      if (speed >= V_LIFTOFF && !state.milestones.liftoff) {
+        addMilestone("You tear free of the water spray. You are now flying.", "liftoff");
+      }
+      if (speed >= V_ORBIT && !state.milestones.orbit) {
+        addMilestone("You stabilize into a shaky orbit, still rowing in vacuum.", "orbit");
+      }
+      if (speed >= V_ESCAPE && !state.milestones.escape) {
+        addMilestone("Your strokes no longer belong to Earth. You have reached escape velocity.", "escape");
+      }
+      if (state.rowLevel > 0 && !state.milestones.firstUpgrade) {
+        addMilestone("Your arms burn, but the stroke is cleaner. First upgrade purchased.", "firstUpgrade");
+      }
+    }
+
+    // --- Input handlers ---------------------------------------
+    rowBtn.addEventListener("click", () => {
+      // Each click = 1 energy, but you can tweak this later
+      state.energy += 1;
+      updateUI();
+    });
+
+    upgradeBtn.addEventListener("click", () => {
+      const cost = getUpgradeCost(state.rowLevel);
+      if (state.energy >= cost) {
+        state.energy -= cost;
+        state.rowLevel += 1;
+        updateUI();
+      }
+    });
+
+    // --- Passive tick (optional progress) ---------------------
+    function tick() {
+      // Optionally: small passive energy per second based on rowLevel
+      // This makes it feel more "incremental" / idle.
+      const passiveEnergy = state.rowLevel * 0.1; // tune this
+      state.energy += passiveEnergy;
+      updateUI();
+    }
+
+    // --- Init -------------------------------------------------
+    loadGame();
+    updateUI();
+
+    setInterval(() => {
+      tick();
+      saveGame();
+    }, 1000);
+  </script>
+</body>
+</html>
