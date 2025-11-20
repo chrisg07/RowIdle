@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/chrisg07/RowIdle/compare/v0.0.4...v0.1.0) (2025-11-20)
+
+
+### Features
+
+* added .versionrc config ([cd17f9a](https://github.com/chrisg07/RowIdle/commit/cd17f9a668336dcd7bf818eb2f757f88034cfb89))
+
 ### [0.0.4](https://github.com/chrisg07/RowIdle/compare/v0.0.3...v0.0.4) (2025-11-20)
 
 
