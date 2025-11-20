@@ -6,7 +6,7 @@ import {
   getSpeed,
   getAltitude,
   getPhase,
-  getUpgradeCost
+  getUpgradeCost,
 } from "./physics";
 
 export const SAVE_KEY = "orbital-rower-save-v1";
@@ -33,26 +33,44 @@ export let state: GameState = {
     liftoff: false,
     orbit: false,
     escape: false,
-    firstUpgrade: false
-  }
+    firstUpgrade: false,
+  },
 };
 
 const energyEl = document.getElementById("energy-display") as HTMLSpanElement;
-const rowLevelEl = document.getElementById("row-level-display") as HTMLSpanElement;
+const rowLevelEl = document.getElementById(
+  "row-level-display"
+) as HTMLSpanElement;
 const speedEl = document.getElementById("speed-display") as HTMLSpanElement;
-const distanceEl = document.getElementById("distance-display") as HTMLSpanElement;
-const altitudeEl = document.getElementById("altitude-display") as HTMLSpanElement;
+const distanceEl = document.getElementById(
+  "distance-display"
+) as HTMLSpanElement;
+const altitudeEl = document.getElementById(
+  "altitude-display"
+) as HTMLSpanElement;
 const phaseEl = document.getElementById("phase-display") as HTMLSpanElement;
 
 const rowBtn = document.getElementById("row-button") as HTMLButtonElement;
-const upgradesSection = document.getElementById("upgrades-section") as HTMLDivElement;
-const upgradeBtn = document.getElementById("upgrade-strength-button") as HTMLButtonElement;
-const upgradeCostEl = document.getElementById("upgrade-strength-cost") as HTMLSpanElement;
+const upgradesSection = document.getElementById(
+  "upgrades-section"
+) as HTMLDivElement;
+const upgradeBtn = document.getElementById(
+  "upgrade-strength-button"
+) as HTMLButtonElement;
+const upgradeCostEl = document.getElementById(
+  "upgrade-strength-cost"
+) as HTMLSpanElement;
 
-const milestonesSection = document.getElementById("milestones-section") as HTMLDivElement;
-const milestonesList = document.getElementById("milestones-list") as HTMLUListElement;
+const milestonesSection = document.getElementById(
+  "milestones-section"
+) as HTMLDivElement;
+const milestonesList = document.getElementById(
+  "milestones-list"
+) as HTMLUListElement;
 
-const rowerVisualEl = document.getElementById("rower-visual") as HTMLPreElement | null;
+const rowerVisualEl = document.getElementById(
+  "rower-visual"
+) as HTMLPreElement | null;
 
 function addMilestone(text: string, key: keyof Milestones): void {
   if (state.milestones[key]) return;
@@ -67,7 +85,7 @@ const ROW_FRAMES = [
   "~~~ \\o/ ~~~",
   "~~~ -o- ~~~",
   "~~~ /o\\ ~~~",
-  "~~~ -o- ~~~"
+  "~~~ -o- ~~~",
 ];
 let rowFrameIndex = 0;
 
@@ -83,10 +101,9 @@ function updateRowerVisual(speed: number): void {
   rowerVisualEl.textContent = ROW_FRAMES[rowFrameIndex];
 }
 
-
 function updateUI(): void {
   const speed = getSpeed(state.rowLevel);
-  const distance = state.distance
+  const distance = state.distance;
   const altitude = getAltitude(speed);
   const phase = getPhase(speed);
 
@@ -152,7 +169,7 @@ upgradeBtn.addEventListener("click", () => {
 function tick(): void {
   const passiveEnergy = state.rowLevel * 0.1;
   state.energy += passiveEnergy;
-  state.distance += getSpeed(state.rowLevel)
+  state.distance += getSpeed(state.rowLevel);
   updateUI();
 }
 
