@@ -21,12 +21,14 @@ interface Milestones {
 export interface GameState {
   energy: number;
   rowLevel: number;
+  distance: number;
   milestones: Milestones;
 }
 
 export let state: GameState = {
   energy: 0,
   rowLevel: 0,
+  distance: 0,
   milestones: {
     liftoff: false,
     orbit: false,
@@ -38,6 +40,7 @@ export let state: GameState = {
 const energyEl = document.getElementById("energy-display") as HTMLSpanElement;
 const rowLevelEl = document.getElementById("row-level-display") as HTMLSpanElement;
 const speedEl = document.getElementById("speed-display") as HTMLSpanElement;
+const distanceEl = document.getElementById("distance-display") as HTMLSpanElement;
 const altitudeEl = document.getElementById("altitude-display") as HTMLSpanElement;
 const phaseEl = document.getElementById("phase-display") as HTMLSpanElement;
 
@@ -72,12 +75,10 @@ function updateRowerVisual(speed: number): void {
   if (!rowerVisualEl) return;
 
   if (speed < 1) {
-    // "Idle" pose when you're basically not moving
-    rowerVisualEl.textContent = "|o   ~~~";
+    rowerVisualEl.textContent = "~~~ |o| ~~~";
     return;
   }
 
-  // Advance one frame per update when moving
   rowFrameIndex = (rowFrameIndex + 1) % ROW_FRAMES.length;
   rowerVisualEl.textContent = ROW_FRAMES[rowFrameIndex];
 }
@@ -85,26 +86,25 @@ function updateRowerVisual(speed: number): void {
 
 function updateUI(): void {
   const speed = getSpeed(state.rowLevel);
+  const distance = state.distance
   const altitude = getAltitude(speed);
   const phase = getPhase(speed);
 
   energyEl.textContent = state.energy.toFixed(0);
   rowLevelEl.textContent = state.rowLevel.toString();
   speedEl.textContent = speed.toFixed(2);
+  distanceEl.textContent = distance.toFixed(2);
   altitudeEl.textContent = altitude.toFixed(0);
   phaseEl.textContent = phase;
 
-  // Show upgrades section after first bit of progress
   if (state.energy >= 5 || state.rowLevel > 0) {
     upgradesSection.classList.remove("hidden");
   }
 
-  // Update upgrade button
   const cost = getUpgradeCost(state.rowLevel);
   upgradeCostEl.textContent = cost.toString();
   upgradeBtn.disabled = state.energy < cost;
 
-  // Milestones
   if (speed >= V_LIFTOFF && !state.milestones.liftoff) {
     addMilestone(
       "You tear free of the water spray. You are now flying.",
@@ -152,6 +152,7 @@ upgradeBtn.addEventListener("click", () => {
 function tick(): void {
   const passiveEnergy = state.rowLevel * 0.1;
   state.energy += passiveEnergy;
+  state.distance += getSpeed(state.rowLevel)
   updateUI();
 }
 
@@ -161,5 +162,8 @@ updateUI();
 
 setInterval(() => {
   tick();
-  saveGame();
 }, 1000);
+
+setInterval(() => {
+  saveGame();
+}, 1000 * 60);
