@@ -13,19 +13,25 @@ An incremental game centered around a rower gaining speed and other various bene
 - Initially start at rest
 - Player is required to manually click `Row` button, spending `Energy` to gain `Speed` and `Distance`. `Speed` eventually drops to zero while the player is not rowing so the player is required to continously interact with the `Row` mechanic.
 - Player reaches early `Distance` milestones that unlock some of the various upgrades in order to allow them to begin scaling their progression
+- Eventually the player will be able to purchaes the `Tempo` upgrade. this enables the display of the players SPM, which is based on how often they are choosing to `Row`. The `Distance` and `Speed` gains a multiplier based on the accuracy of the player's ability to match a certain.
 
 ## Upgrades
 
 - Passive `Energy` gain rate
-- `Distance` and `Speed` gained per `Row`
+- `Distance` and `Speed` gained per `Row`. Increases `Energy` spent per `Row`
+- Reduce `Energy` spent per `Row`
+- Increase maximum SPM (amount of times a player can `Row` per minute)
 - Minimum `Speed`
 - Maximum `Speed`
+- Decrease `Drag` (`Speed` reduction per tick)
 - Passive `Row` rate (SPM): A meaningful progression point. The player now passively `Row`s every so often to further scale their idle progression
+- Reduced upgrade cost
 
 ## Interface
 
 - ASCII art representation of a rower that rotates through frames at a rate tied to the current speed of the player
 - Minimal styling on top of plain HTML elements
 - UI elements are placed within mobile width columns, even on desktop, so that the same interface can be used on mobile and desktop. On mobile they would collapse under one another to form a single column.
+  - Columns will be 360px wide
 - A simple reveal animation will be used when new UI elements are exposed at various progression points of the game.
 - A scrolling list of `Milestone`s is updated whenever the player reaches a various progression points like unlocking upgrades, reaching certain `Distance`s, etc.
