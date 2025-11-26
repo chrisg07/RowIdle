@@ -106,9 +106,9 @@ function tick(): void {
   state.distance += state.speed
   state.speed = state.speed * state.drag
 
-  const strokesInPast10Seconds = state.strokes.filter(stroke => stroke > Date.now() - 10_000)
-  state.strokes = strokesInPast10Seconds
-  const currentSPM = strokesInPast10Seconds.length * 6
+  const strokesInPast20Seconds = state.strokes.filter(stroke => stroke > Date.now() - 20_000)
+  state.strokes = strokesInPast20Seconds
+  const currentSPM = strokesInPast20Seconds.length * 3
   currentSPMEl.textContent = currentSPM.toFixed(0)
 
   if (currentSPM > state.maxSPM) {
