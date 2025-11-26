@@ -1,5 +1,5 @@
 import { loadGame, saveGame } from './storage'
-import { getSpeed, getAltitude, getPhase, getUpgradeCost } from './physics'
+import { getSpeed, getAltitude, getUpgradeCost } from './physics'
 import { MilestoneState, createDefaultMilestoneState, updateMilestones } from './milestones'
 
 export const SAVE_KEY = 'orbital-rower-save-v1'
@@ -23,7 +23,6 @@ const rowLevelEl = document.getElementById('row-level-display') as HTMLSpanEleme
 const speedEl = document.getElementById('speed-display') as HTMLSpanElement
 const distanceEl = document.getElementById('distance-display') as HTMLSpanElement
 const altitudeEl = document.getElementById('altitude-display') as HTMLSpanElement
-const phaseEl = document.getElementById('phase-display') as HTMLSpanElement
 
 const rowBtn = document.getElementById('row-button') as HTMLButtonElement
 const upgradesSection = document.getElementById('upgrades-section') as HTMLDivElement
@@ -54,14 +53,12 @@ function updateUI(): void {
   const speed = getSpeed(state.rowLevel)
   const distance = state.distance
   const altitude = getAltitude(speed)
-  const phase = getPhase(speed)
 
   energyEl.textContent = state.energy.toFixed(0)
   rowLevelEl.textContent = state.rowLevel.toString()
   speedEl.textContent = speed.toFixed(2)
   distanceEl.textContent = distance.toFixed(2)
   altitudeEl.textContent = altitude.toFixed(0)
-  phaseEl.textContent = phase
 
   if (state.energy >= 5 || state.rowLevel > 0) {
     upgradesSection.classList.remove('hidden')
