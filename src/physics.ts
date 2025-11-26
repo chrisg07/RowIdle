@@ -4,7 +4,7 @@ export const V_ESCAPE = 12000 // m/s
 export const ALT_SCALE = 0.001
 
 export function getSpeed(rowLevel: number): number {
-  const baseSpeed = 1
+  const baseSpeed = 0
   return baseSpeed * Math.pow(1.25, rowLevel)
 }
 

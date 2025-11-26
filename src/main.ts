@@ -1,5 +1,5 @@
 import { loadGame, saveGame } from './storage'
-import { getSpeed, getAltitude, getUpgradeCost } from './physics'
+import { getSpeed, getUpgradeCost } from './physics'
 import { MilestoneState, createDefaultMilestoneState, updateMilestones } from './milestones'
 
 export const SAVE_KEY = 'orbital-rower-save-v1'
@@ -13,7 +13,7 @@ export interface GameState {
 
 export let state: GameState = {
   energy: 0,
-  rowLevel: 0,
+  rowLevel: 1,
   distance: 0,
   milestones: createDefaultMilestoneState(),
 }
@@ -69,9 +69,12 @@ function updateUI(): void {
   updateRowerVisual(speed)
 }
 
-// --- Input handlers ---------------------------------------
 rowBtn.addEventListener('click', () => {
-  state.energy += 1 + state.rowLevel
+  const rowCost = state.rowLevel
+  if (state.energy > rowCost) {
+    state.energy -= rowCost
+    state.distance += 3
+  }
   updateUI()
 })
 
@@ -84,22 +87,23 @@ upgradeBtn.addEventListener('click', () => {
   }
 })
 
-// --- Passive tick (optional progress) ---------------------
 function tick(): void {
-  const passiveEnergy = state.rowLevel * 0.1
+  const passiveEnergy = state.rowLevel * 0.5
   state.energy += passiveEnergy
-  state.distance += getSpeed(state.rowLevel)
   updateUI()
 }
 
-// --- Init -------------------------------------------------
-loadGame()
-updateUI()
+function initialize(): void {
+  loadGame()
+  updateUI()
 
-setInterval(() => {
-  tick()
-}, 1000)
+  setInterval(() => {
+    tick()
+  }, 1000)
 
-setInterval(() => {
-  saveGame()
-}, 1000 * 60)
+  setInterval(() => {
+    saveGame()
+  }, 1000 * 60)
+}
+
+initialize()
