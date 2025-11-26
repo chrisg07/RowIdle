@@ -22,7 +22,6 @@ const energyEl = document.getElementById('energy-display') as HTMLSpanElement
 const rowLevelEl = document.getElementById('row-level-display') as HTMLSpanElement
 const speedEl = document.getElementById('speed-display') as HTMLSpanElement
 const distanceEl = document.getElementById('distance-display') as HTMLSpanElement
-const altitudeEl = document.getElementById('altitude-display') as HTMLSpanElement
 
 const rowBtn = document.getElementById('row-button') as HTMLButtonElement
 const upgradesSection = document.getElementById('upgrades-section') as HTMLDivElement
@@ -52,13 +51,11 @@ function updateRowerVisual(speed: number): void {
 function updateUI(): void {
   const speed = getSpeed(state.rowLevel)
   const distance = state.distance
-  const altitude = getAltitude(speed)
 
   energyEl.textContent = state.energy.toFixed(0)
   rowLevelEl.textContent = state.rowLevel.toString()
   speedEl.textContent = speed.toFixed(2)
   distanceEl.textContent = distance.toFixed(2)
-  altitudeEl.textContent = altitude.toFixed(0)
 
   if (state.energy >= 5 || state.rowLevel > 0) {
     upgradesSection.classList.remove('hidden')
