@@ -76,7 +76,7 @@ rowBtn.addEventListener('click', () => {
   const rowCost = state.rowLevel
   if (state.energy > rowCost) {
     state.energy -= rowCost
-    state.speed += 3
+    state.speed += 3 * state.rowLevel
   }
   updateUI()
 })
