@@ -1,26 +1,31 @@
 import { loadGame, saveGame } from './storage'
-import { getSpeed, getUpgradeCost } from './physics'
+import { getUpgradeCost } from './physics'
 import { MilestoneState, createDefaultMilestoneState, updateMilestones } from './milestones'
 
 export const SAVE_KEY = 'orbital-rower-save-v1'
 
 export interface GameState {
   energy: number
+  speed: number
   rowLevel: number
   distance: number
+  drag: number
   milestones: MilestoneState
 }
 
 export let state: GameState = {
   energy: 0,
+  speed: 0,
   rowLevel: 1,
   distance: 0,
+  drag: 0.4,
   milestones: createDefaultMilestoneState(),
 }
 
 const energyEl = document.getElementById('energy-display') as HTMLSpanElement
 const rowLevelEl = document.getElementById('row-level-display') as HTMLSpanElement
 const speedEl = document.getElementById('speed-display') as HTMLSpanElement
+const dragEl = document.getElementById('drag-display') as HTMLSpanElement
 const distanceEl = document.getElementById('distance-display') as HTMLSpanElement
 
 const rowBtn = document.getElementById('row-button') as HTMLButtonElement
@@ -49,13 +54,11 @@ function updateRowerVisual(speed: number): void {
 }
 
 function updateUI(): void {
-  const speed = getSpeed(state.rowLevel)
-  const distance = state.distance
-
   energyEl.textContent = state.energy.toFixed(0)
   rowLevelEl.textContent = state.rowLevel.toString()
-  speedEl.textContent = speed.toFixed(2)
-  distanceEl.textContent = distance.toFixed(2)
+  speedEl.textContent = state.speed.toFixed(2)
+  dragEl.textContent = (state.drag * 100).toFixed(0)
+  distanceEl.textContent = state.distance.toFixed(2)
 
   if (state.energy >= 5 || state.rowLevel > 0) {
     upgradesSection.classList.remove('hidden')
@@ -65,15 +68,15 @@ function updateUI(): void {
   upgradeCostEl.textContent = cost.toString()
   upgradeBtn.disabled = state.energy < cost
 
-  updateMilestones(speed, distance)
-  updateRowerVisual(speed)
+  updateMilestones(state.speed, state.distance)
+  updateRowerVisual(state.speed)
 }
 
 rowBtn.addEventListener('click', () => {
   const rowCost = state.rowLevel
   if (state.energy > rowCost) {
     state.energy -= rowCost
-    state.distance += 3
+    state.speed += 3
   }
   updateUI()
 })
@@ -90,6 +93,7 @@ upgradeBtn.addEventListener('click', () => {
 function tick(): void {
   const passiveEnergy = state.rowLevel * 0.5
   state.energy += passiveEnergy
+  state.speed = state.speed * state.drag
   updateUI()
 }
 

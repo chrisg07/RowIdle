@@ -30,12 +30,6 @@ export const MILESTONES = [
     message: 'Congrats, you circumnavigated the globe. But why are you still here?',
   },
   {
-    id: 'first-upgrade',
-    type: 'upgrade',
-    threshold: 1,
-    message: 'Your arms burn, but the stroke is cleaner. First upgrade purchased.',
-  },
-  {
     id: 'liftoff',
     type: 'speed',
     threshold: V_LIFTOFF,
@@ -61,6 +55,7 @@ export type MilestoneState = Record<MilestoneId, boolean>
 export function createDefaultMilestoneState(): MilestoneState {
   return Object.fromEntries(MILESTONES.map(m => [m.id, false])) as MilestoneState
 }
+
 export function updateMilestones(speed: number, distance: number) {
   for (const milestone of MILESTONES) {
     if (state.milestones[milestone.id]) continue
