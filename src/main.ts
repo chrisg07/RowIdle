@@ -93,6 +93,7 @@ upgradeBtn.addEventListener('click', () => {
 function tick(): void {
   const passiveEnergy = state.rowLevel * 0.5
   state.energy += passiveEnergy
+  state.distance += state.speed
   state.speed = state.speed * state.drag
   updateUI()
 }
