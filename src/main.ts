@@ -10,6 +10,8 @@ export interface GameState {
   rowLevel: number
   distance: number
   drag: number
+  maxSPM: number
+  strokes: number[]
   milestones: MilestoneState
 }
 
@@ -19,11 +21,14 @@ export let state: GameState = {
   rowLevel: 1,
   distance: 0,
   drag: 0.4,
+  maxSPM: 16,
+  strokes: [],
   milestones: createDefaultMilestoneState(),
 }
 
 const energyEl = document.getElementById('energy-display') as HTMLSpanElement
 const rowLevelEl = document.getElementById('row-level-display') as HTMLSpanElement
+const maxSPMEl = document.getElementById('max-spm-display') as HTMLSpanElement
 const speedEl = document.getElementById('speed-display') as HTMLSpanElement
 const dragEl = document.getElementById('drag-display') as HTMLSpanElement
 const distanceEl = document.getElementById('distance-display') as HTMLSpanElement
@@ -56,6 +61,7 @@ function updateRowerVisual(speed: number): void {
 function updateUI(): void {
   energyEl.textContent = state.energy.toFixed(0)
   rowLevelEl.textContent = state.rowLevel.toString()
+  maxSPMEl.textContent = state.maxSPM.toFixed(0)
   speedEl.textContent = state.speed.toFixed(2)
   dragEl.textContent = (state.drag * 100).toFixed(0)
   distanceEl.textContent = state.distance.toFixed(2)
@@ -74,6 +80,9 @@ function updateUI(): void {
 
 rowBtn.addEventListener('click', () => {
   const rowCost = state.rowLevel
+  const rowDate = Date.now()
+  state.strokes.push(rowDate)
+
   if (state.energy > rowCost) {
     state.energy -= rowCost
     state.speed += 3 * state.rowLevel
@@ -95,6 +104,17 @@ function tick(): void {
   state.energy += passiveEnergy
   state.distance += state.speed
   state.speed = state.speed * state.drag
+
+  const strokesInPast10Seconds = state.strokes.filter(stroke => stroke > Date.now() - 10_000)
+  state.strokes = strokesInPast10Seconds
+  const currentSPM = strokesInPast10Seconds.length * 6
+
+  if (currentSPM > state.maxSPM) {
+    rowBtn.disabled = true
+  } else {
+    rowBtn.disabled = false
+  }
+
   updateUI()
 }
 
