@@ -29,6 +29,7 @@ export let state: GameState = {
 const energyEl = document.getElementById('energy-display') as HTMLSpanElement
 const rowLevelEl = document.getElementById('row-level-display') as HTMLSpanElement
 const maxSPMEl = document.getElementById('max-spm-display') as HTMLSpanElement
+const currentSPMEl = document.getElementById('current-spm-display') as HTMLSpanElement
 const speedEl = document.getElementById('speed-display') as HTMLSpanElement
 const dragEl = document.getElementById('drag-display') as HTMLSpanElement
 const distanceEl = document.getElementById('distance-display') as HTMLSpanElement
@@ -108,6 +109,7 @@ function tick(): void {
   const strokesInPast10Seconds = state.strokes.filter(stroke => stroke > Date.now() - 10_000)
   state.strokes = strokesInPast10Seconds
   const currentSPM = strokesInPast10Seconds.length * 6
+  currentSPMEl.textContent = currentSPM.toFixed(0)
 
   if (currentSPM > state.maxSPM) {
     rowBtn.disabled = true
