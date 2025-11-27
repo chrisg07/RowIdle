@@ -27,7 +27,13 @@ export let state: GameState = {
   milestones: createDefaultMilestoneState(),
 }
 
-const energyDisplay = new StatDisplay('energy-display', "Energy", "kcal", () => state.energy.toFixed(0))
+let statDisplays: {[key: string]: StatDisplay} = {}
+
+function createStatDisplays(): void {
+  statDisplays["energy"] = new StatDisplay('energy-display', "Energy", "kcal", () => state.energy.toFixed(0))
+}
+
+createStatDisplays()
 
 const rowLevelEl = document.getElementById('row-level-display') as HTMLSpanElement
 const maxSPMEl = document.getElementById('max-spm-display') as HTMLSpanElement
@@ -62,7 +68,10 @@ function updateRowerVisual(speed: number): void {
 }
 
 function updateUI(): void {
-  energyDisplay.update()
+  for (const display of Object.values(statDisplays)) {
+    display.update()
+  }
+  
   rowLevelEl.textContent = state.rowLevel.toString()
   maxSPMEl.textContent = state.maxSPM.toFixed(0)
   speedEl.textContent = state.speed.toFixed(2)
