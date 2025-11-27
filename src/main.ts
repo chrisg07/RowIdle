@@ -27,16 +27,22 @@ export let state: GameState = {
   milestones: createDefaultMilestoneState(),
 }
 
-let statDisplays: {[key: string]: StatDisplay} = {}
+let statDisplays: { [key: string]: StatDisplay } = {}
 
 function createStatDisplays(): void {
-  statDisplays["energy"] = new StatDisplay('energy-display', "Energy", "kcal", () => state.energy.toFixed(0))
-  statDisplays["row-level"] = new StatDisplay('row-level-display', "Row Level", "", () => state.rowLevel.toString())
+  statDisplays['energy'] = new StatDisplay('energy-display', 'Energy', 'kcal', () =>
+    state.energy.toFixed(0)
+  )
+  statDisplays['row-level'] = new StatDisplay('row-level-display', 'Row Level', '', () =>
+    state.rowLevel.toString()
+  )
+  statDisplays['max-spm'] = new StatDisplay('max-spm-display', 'Max SPM', '', () =>
+    state.maxSPM.toFixed(0)
+  )
 }
 
 createStatDisplays()
 
-const maxSPMEl = document.getElementById('max-spm-display') as HTMLSpanElement
 const currentSPMEl = document.getElementById('current-spm-display') as HTMLSpanElement
 const speedEl = document.getElementById('speed-display') as HTMLSpanElement
 const dragEl = document.getElementById('drag-display') as HTMLSpanElement
@@ -72,7 +78,6 @@ function updateUI(): void {
     display.update()
   }
 
-  maxSPMEl.textContent = state.maxSPM.toFixed(0)
   speedEl.textContent = state.speed.toFixed(2)
   dragEl.textContent = (state.drag * 100).toFixed(0)
   distanceEl.textContent = state.distance.toFixed(2)
