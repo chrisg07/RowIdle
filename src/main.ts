@@ -1,6 +1,7 @@
 import { loadGame, saveGame } from './storage'
 import { getUpgradeCost } from './physics'
 import { MilestoneState, createDefaultMilestoneState, updateMilestones } from './milestones'
+import { StatDisplay } from './interface'
 
 export const SAVE_KEY = 'orbital-rower-save-v1'
 
@@ -26,7 +27,8 @@ export let state: GameState = {
   milestones: createDefaultMilestoneState(),
 }
 
-const energyEl = document.getElementById('energy-display') as HTMLSpanElement
+const energyDisplay = new StatDisplay('energy-display', "Energy", "kcal", () => state.energy.toFixed(0))
+
 const rowLevelEl = document.getElementById('row-level-display') as HTMLSpanElement
 const maxSPMEl = document.getElementById('max-spm-display') as HTMLSpanElement
 const currentSPMEl = document.getElementById('current-spm-display') as HTMLSpanElement
@@ -60,7 +62,7 @@ function updateRowerVisual(speed: number): void {
 }
 
 function updateUI(): void {
-  energyEl.textContent = state.energy.toFixed(0)
+  energyDisplay.update()
   rowLevelEl.textContent = state.rowLevel.toString()
   maxSPMEl.textContent = state.maxSPM.toFixed(0)
   speedEl.textContent = state.speed.toFixed(2)

@@ -8,6 +8,7 @@ export function saveGame(): void {
     console.warn('Save failed:', e)
   }
 }
+
 export function loadGame(): void {
   try {
     const raw = localStorage.getItem(SAVE_KEY)
