@@ -1,4 +1,5 @@
-import { SAVE_KEY, state, GameState } from './main'
+import { SAVE_KEY } from './main'
+import { state, GameState } from './state'
 import { createDefaultMilestoneState, MilestoneState } from './milestones'
 
 export function saveGame(): void {

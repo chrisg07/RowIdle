@@ -1,4 +1,5 @@
-import { state, milestonesList, milestonesSection } from './main'
+import { milestonesList, milestonesSection } from './main'
+import { state } from './state'
 import { V_ESCAPE, V_LIFTOFF, V_ORBIT } from './physics'
 
 type MilestoneType = 'speed' | 'distance' | 'upgrade'

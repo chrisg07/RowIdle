@@ -1,4 +1,4 @@
-import { GameState } from "./main"
+import { GameState } from './state'
 
 export interface IStatDisplay {
     statElement: HTMLSpanElement
