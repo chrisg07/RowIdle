@@ -21,3 +21,10 @@ export let state: GameState = {
   strokes: [],
   milestones: createDefaultMilestoneState(),
 };
+
+export function getCurrentSPM(): number {
+    const strokesInPast20Seconds = state.strokes.filter(stroke => stroke > Date.now() - 20000);
+    state.strokes = strokesInPast20Seconds;
+    const currentSPM = strokesInPast20Seconds.length * 3;
+    return currentSPM
+}

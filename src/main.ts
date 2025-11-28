@@ -3,7 +3,7 @@ import { getUpgradeCost } from './physics'
 import { updateMilestones } from './milestones'
 import { StatDisplay } from './interface'
 import { createStatDisplays } from './stats'
-import { state } from './state'
+import { getCurrentSPM, state } from './state'
 
 export const SAVE_KEY = 'orbital-rower-save-v1'
 
@@ -80,11 +80,7 @@ function tick(): void {
   state.distance += state.speed
   state.speed = state.speed * state.drag
 
-  const strokesInPast20Seconds = state.strokes.filter(stroke => stroke > Date.now() - 20_000)
-  state.strokes = strokesInPast20Seconds
-  const currentSPM = strokesInPast20Seconds.length * 3
-
-  if (currentSPM > state.maxSPM) {
+  if (getCurrentSPM() > state.maxSPM) {
     rowBtn.disabled = true
   } else {
     rowBtn.disabled = false
