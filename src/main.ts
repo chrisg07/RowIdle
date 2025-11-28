@@ -51,11 +51,12 @@ function createStatDisplays(): void {
   statDisplays['drag'] = new StatDisplay('drag-display', 'Drag', '%', () =>
     (state.drag * 100).toFixed(0)
   )
+  statDisplays['distance'] = new StatDisplay('distance-display', 'Distance', 'm', () =>
+    state.distance.toFixed(2)
+  )
 }
 
 createStatDisplays()
-
-const distanceEl = document.getElementById('distance-display') as HTMLSpanElement
 
 const rowBtn = document.getElementById('row-button') as HTMLButtonElement
 const upgradesSection = document.getElementById('upgrades-section') as HTMLDivElement
@@ -86,8 +87,6 @@ function updateUI(): void {
   for (const display of Object.values(statDisplays)) {
     display.update()
   }
-
-  distanceEl.textContent = state.distance.toFixed(2)
 
   if (state.energy >= 5 || state.rowLevel > 0) {
     upgradesSection.classList.remove('hidden')
