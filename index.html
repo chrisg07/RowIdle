@@ -19,7 +19,7 @@
     >
 
     <div id="intro">
-      <p>
+      <p class="note">
         You are a lone rower with an impossible goal: row so hard and so fast you leave the planet.
       </p>
     </div>
@@ -34,17 +34,15 @@
 
       <div class="actions-section">
         <h2>Actions</h2>
-        <button id="row-button">Row</button>
-        <p class="note">Click to row and generate energy.</p>
+        <button title="Click to row. Spend energy and gain distance." id="row-button">Row</button>
       </div>
 
       <div id="upgrades-section" class="hidden">
         <h2>Upgrades</h2>
-        <button id="upgrade-strength-button">
+        <button id="upgrade-strength-button" title="Increase the distance gained each time you row. Increases energy cost.">
           Stronger Stroke (Cost:
           <span id="upgrade-strength-cost">10</span> energy)
         </button>
-        <p class="note">Each level massively increases your rowing speed.</p>
       </div>
 
       <div id="milestones-section" class="hidden">
