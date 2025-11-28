@@ -1,24 +1,24 @@
 import { GameState } from './state'
 
-export interface IStatDisplay {
-    statElement: HTMLSpanElement
+export interface IDisplay {
+    element: HTMLElement
     update(state: GameState): void
-    getHTML(): HTMLParagraphElement
+    getHTML(): HTMLElement
 }
 
-export class StatDisplay implements IStatDisplay {
-    public statElement: HTMLSpanElement
+export class StatDisplay implements IDisplay {
+    public element: HTMLSpanElement
 
     constructor(private id: string, private displayString: string, private suffix: string, private getUpdatedValue: () => string) {
         const html = this.getHTML()
         document.getElementById('stats')?.append(html)
-        this.statElement = document.getElementById(id) as HTMLSpanElement
+        this.element = document.getElementById(id) as HTMLSpanElement
         this.getUpdatedValue = getUpdatedValue
         this.update()
     }
 
     update(): void {
-        this.statElement.innerText = this.getUpdatedValue()
+        this.element.innerText = this.getUpdatedValue()
     }
 
     getHTML(): HTMLParagraphElement {
