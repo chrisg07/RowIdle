@@ -1,10 +1,9 @@
 import { loadGame, saveGame } from './storage'
 import { getUpgradeCost } from './physics'
-import { updateMilestones } from './milestones'
 import { StatDisplay } from './interface'
 import { createStatDisplays } from './stats'
 import { getCurrentSPM, state } from './state'
-
+import { createDefaultAchievementState, updateAchievements } from './milestones'
 export const SAVE_KEY = 'orbital-rower-save-v1'
 
 export let statDisplays: { [key: string]: StatDisplay } = {}
@@ -16,8 +15,6 @@ const upgradesSection = document.getElementById('upgrades-section') as HTMLDivEl
 const upgradeBtn = document.getElementById('upgrade-strength-button') as HTMLButtonElement
 const upgradeCostEl = document.getElementById('upgrade-strength-cost') as HTMLSpanElement
 
-export const milestonesSection = document.getElementById('milestones-section') as HTMLDivElement
-export const milestonesList = document.getElementById('milestones-list') as HTMLUListElement
 
 const rowerVisualEl = document.getElementById('rower-visual') as HTMLPreElement | null
 
@@ -49,7 +46,7 @@ function updateUI(): void {
   upgradeCostEl.textContent = cost.toString()
   upgradeBtn.disabled = state.energy < cost
 
-  updateMilestones(state.speed, state.distance)
+  updateAchievements(state.speed, state.distance)
   updateRowerVisual(state.speed)
 }
 
@@ -90,6 +87,7 @@ function tick(): void {
 }
 
 function initialize(): void {
+  state.achievements = createDefaultAchievementState()
   loadGame()
   updateUI()
 

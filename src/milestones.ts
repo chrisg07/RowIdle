@@ -1,17 +1,19 @@
-import { milestonesList, milestonesSection } from './main'
 import { state } from './state'
 import { V_ESCAPE, V_LIFTOFF, V_ORBIT } from './physics'
 
-type MilestoneType = 'speed' | 'distance' | 'upgrade'
+type AchievementType = 'speed' | 'distance' | 'upgrade'
 
-export interface Milestone {
+const logSection = document.getElementById('log-section') as HTMLDivElement
+const logList = document.getElementById('log-list') as HTMLUListElement
+
+export interface Achievement {
   id: string
-  type: MilestoneType
+  type: AchievementType
   threshold: number
   message: string
 }
 
-export const MILESTONES = [
+export const ACHIEVEMENTS = [
   {
     id: 'first-row',
     type: 'distance',
@@ -48,37 +50,38 @@ export const MILESTONES = [
     threshold: V_ESCAPE,
     message: 'Your strokes no longer belong to Earth. You have reached escape velocity.',
   },
-] as const satisfies ReadonlyArray<Milestone>
+] as const satisfies ReadonlyArray<Achievement>
 
-export type MilestoneId = (typeof MILESTONES)[number]['id']
-export type MilestoneState = Record<MilestoneId, boolean>
+export type AchievementId = (typeof ACHIEVEMENTS)[number]['id']
+export type AchievementState = Record<AchievementId, boolean>
 
-export function createDefaultMilestoneState(): MilestoneState {
-  return Object.fromEntries(MILESTONES.map(m => [m.id, false])) as MilestoneState
+export function createDefaultAchievementState(): AchievementState {
+  return Object.fromEntries(ACHIEVEMENTS.map(m => [m.id, false])) as AchievementState
 }
 
-export function updateMilestones(speed: number, distance: number) {
-  for (const milestone of MILESTONES) {
-    if (state.milestones[milestone.id]) continue
+export function updateAchievements(speed: number, distance: number) {
+  for (const achievement of ACHIEVEMENTS) {
+    if (state.achievements[achievement.id]) continue
 
     const achieved =
-      (milestone.type === 'speed' && speed >= milestone.threshold) ||
-      (milestone.type === 'distance' && distance >= milestone.threshold) ||
-      (milestone.type === 'upgrade' && state.rowLevel >= milestone.threshold)
+      (achievement.type === 'speed' && speed >= achievement.threshold) ||
+      (achievement.type === 'distance' && distance >= achievement.threshold) ||
+      (achievement.type === 'upgrade' && state.rowLevel >= achievement.threshold)
 
     if (achieved) {
-      addMilestone(milestone.id)
+      addAchievement(achievement.id)
     }
   }
 }
-export function addMilestone(id: MilestoneId): void {
-  if (state.milestones[id]) return
-  const milestone = MILESTONES.find(m => m.id === id)
-  if (!milestone) return
 
-  state.milestones[id] = true
+export function addAchievement(id: AchievementId): void {
+  if (state.achievements[id]) return
+  const achievement = ACHIEVEMENTS.find(m => m.id === id)
+  if (!achievement) return
+
+  state.achievements[id] = true
   const li = document.createElement('li')
-  li.textContent = milestone.message
-  milestonesList.appendChild(li)
-  milestonesSection.classList.remove('hidden')
+  li.textContent = achievement.message
+  logList.appendChild(li)
+  logSection.classList.remove('hidden')
 }

@@ -1,6 +1,6 @@
 import { SAVE_KEY } from './main'
+import { AchievementState, createDefaultAchievementState } from './milestones'
 import { state, GameState } from './state'
-import { createDefaultMilestoneState, MilestoneState } from './milestones'
 
 export function saveGame(): void {
   try {
@@ -19,8 +19,8 @@ export function loadGame(): void {
     if (typeof data.rowLevel === 'number') state.rowLevel = data.rowLevel
     if (typeof data.distance === 'number') state.distance = data.distance
 
-    const loadedMilestones = (data.milestones ?? {}) as Partial<MilestoneState>
-    state.milestones = { ...createDefaultMilestoneState(), ...loadedMilestones }
+    const loadedAchievements = (data.achievements ?? {}) as Partial<AchievementState>
+    state.achievements = { ...createDefaultAchievementState(), ...loadedAchievements }
   } catch (e) {
     console.warn('Load failed:', e)
   }

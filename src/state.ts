@@ -1,5 +1,3 @@
-import { MilestoneState, createDefaultMilestoneState } from './milestones';
-
 export interface GameState {
   energy: number;
   energyGain: number;
@@ -9,7 +7,7 @@ export interface GameState {
   drag: number;
   maxSPM: number;
   strokes: number[];
-  milestones: MilestoneState;
+  achievements: Record<string, boolean>;
 }
 
 export let state: GameState = {
@@ -21,7 +19,7 @@ export let state: GameState = {
   drag: 0.4,
   maxSPM: 16,
   strokes: [],
-  milestones: createDefaultMilestoneState(),
+  achievements: {},
 };
 
 export function getCurrentSPM(): number {
