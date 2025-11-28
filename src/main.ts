@@ -45,11 +45,13 @@ function createStatDisplays(): void {
     const currentSPM = strokesInPast20Seconds.length * 3
     return currentSPM.toFixed(0)
   })
+  statDisplays['speed'] = new StatDisplay('speed-display', 'Speed', 'm/s', () =>
+    state.speed.toFixed(2)
+  )
 }
 
 createStatDisplays()
 
-const speedEl = document.getElementById('speed-display') as HTMLSpanElement
 const dragEl = document.getElementById('drag-display') as HTMLSpanElement
 const distanceEl = document.getElementById('distance-display') as HTMLSpanElement
 
@@ -83,7 +85,6 @@ function updateUI(): void {
     display.update()
   }
 
-  speedEl.textContent = state.speed.toFixed(2)
   dragEl.textContent = (state.drag * 100).toFixed(0)
   distanceEl.textContent = state.distance.toFixed(2)
 
