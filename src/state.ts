@@ -2,6 +2,7 @@ import { MilestoneState, createDefaultMilestoneState } from './milestones';
 
 export interface GameState {
   energy: number;
+  energyGain: number;
   speed: number;
   rowLevel: number;
   distance: number;
@@ -13,6 +14,7 @@ export interface GameState {
 
 export let state: GameState = {
   energy: 0,
+  energyGain: 0.5,
   speed: 0,
   rowLevel: 1,
   distance: 0,

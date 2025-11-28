@@ -6,6 +6,9 @@ export function createStatDisplays(): void {
   statDisplays['energy'] = new StatDisplay('energy-display', 'Energy', 'kcal', () =>
     state.energy.toFixed(0)
   )
+  statDisplays['energy-gain'] = new StatDisplay('energy-gain-display', 'Energy Gain', 'sec', () =>
+    state.energyGain.toFixed(1)
+  )
   statDisplays['row-level'] = new StatDisplay('row-level-display', 'Row Level', '', () =>
     state.rowLevel.toString()
   )
