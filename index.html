@@ -24,30 +24,38 @@
       </p>
     </div>
 
-    <h2>Rower</h2>
-    <pre id="rower-visual" class="rower-visual">~~~ \o/ ~~~</pre>
+    <div class="display-columns">
+      <div class="stats-section">
+        <h2>Stats</h2>
+        <div id="stats">
+          <!-- Populated with JS -->
+        </div>
+      </div>
 
-    <h2>Stats</h2>
-    <div id="stats">
-      <!-- Populated with JS -->
-    </div>
+      <div class="actions-section">
+        <h2>Actions</h2>
+        <button id="row-button">Row</button>
+        <p class="note">Click to row and generate energy.</p>
+      </div>
 
-    <h2>Action</h2>
-    <button id="row-button">Row</button>
-    <p class="note">Click to row and generate energy.</p>
+      <div id="upgrades-section" class="hidden">
+        <h2>Upgrades</h2>
+        <button id="upgrade-strength-button">
+          Stronger Stroke (Cost:
+          <span id="upgrade-strength-cost">10</span> energy)
+        </button>
+        <p class="note">Each level massively increases your rowing speed.</p>
+      </div>
 
-    <div id="upgrades-section" class="hidden">
-      <h2>Upgrades</h2>
-      <button id="upgrade-strength-button">
-        Stronger Stroke (Cost:
-        <span id="upgrade-strength-cost">10</span> energy)
-      </button>
-      <p class="note">Each level massively increases your rowing speed.</p>
-    </div>
+      <div id="milestones-section" class="hidden">
+        <h2>Milestones</h2>
+        <ul id="milestones-list"></ul>
+      </div>
 
-    <div id="milestones-section" class="hidden">
-      <h2>Milestones</h2>
-      <ul id="milestones-list"></ul>
+      <div class="rower-section">
+        <h2>Rower</h2>
+        <pre id="rower-visual" class="rower-visual">~~~ \o/ ~~~</pre>
+      </div>
     </div>
 
     <script type="module" src="/src/main.ts"></script>
