@@ -48,11 +48,13 @@ function createStatDisplays(): void {
   statDisplays['speed'] = new StatDisplay('speed-display', 'Speed', 'm/s', () =>
     state.speed.toFixed(2)
   )
+  statDisplays['drag'] = new StatDisplay('drag-display', 'Drag', '%', () =>
+    (state.drag * 100).toFixed(0)
+  )
 }
 
 createStatDisplays()
 
-const dragEl = document.getElementById('drag-display') as HTMLSpanElement
 const distanceEl = document.getElementById('distance-display') as HTMLSpanElement
 
 const rowBtn = document.getElementById('row-button') as HTMLButtonElement
@@ -85,7 +87,6 @@ function updateUI(): void {
     display.update()
   }
 
-  dragEl.textContent = (state.drag * 100).toFixed(0)
   distanceEl.textContent = state.distance.toFixed(2)
 
   if (state.energy >= 5 || state.rowLevel > 0) {
