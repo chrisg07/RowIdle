@@ -1,5 +1,5 @@
 import { SAVE_KEY } from './main'
-import { AchievementState, createDefaultAchievementState } from './milestones'
+import { AchievementState, createDefaultAchievementState } from './achievements'
 import { state, GameState } from './state'
 
 export function saveGame(): void {

@@ -3,7 +3,8 @@ import { getUpgradeCost } from './physics'
 import { StatDisplay } from './interface'
 import { createStatDisplays } from './stats'
 import { getCurrentSPM, state } from './state'
-import { createDefaultAchievementState, updateAchievements } from './milestones'
+import { createDefaultAchievementState, updateAchievements } from './achievements'
+
 export const SAVE_KEY = 'orbital-rower-save-v1'
 
 export let statDisplays: { [key: string]: StatDisplay } = {}
