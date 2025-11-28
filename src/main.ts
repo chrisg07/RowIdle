@@ -8,6 +8,7 @@ import { createDefaultAchievementState, updateAchievements } from './achievement
 export const SAVE_KEY = 'orbital-rower-save-v1'
 
 export let statDisplays: { [key: string]: StatDisplay } = {}
+// export let upgradeDisplays: { [key: string]: UpgradeDisplay}
 
 createStatDisplays()
 
