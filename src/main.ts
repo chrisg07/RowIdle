@@ -39,11 +39,16 @@ function createStatDisplays(): void {
   statDisplays['max-spm'] = new StatDisplay('max-spm-display', 'Max SPM', '', () =>
     state.maxSPM.toFixed(0)
   )
+  statDisplays['current-spm'] = new StatDisplay('current-spm-display', 'Current SPM', '', () => {
+    const strokesInPast20Seconds = state.strokes.filter(stroke => stroke > Date.now() - 20_000)
+    state.strokes = strokesInPast20Seconds
+    const currentSPM = strokesInPast20Seconds.length * 3
+    return currentSPM.toFixed(0)
+  })
 }
 
 createStatDisplays()
 
-const currentSPMEl = document.getElementById('current-spm-display') as HTMLSpanElement
 const speedEl = document.getElementById('speed-display') as HTMLSpanElement
 const dragEl = document.getElementById('drag-display') as HTMLSpanElement
 const distanceEl = document.getElementById('distance-display') as HTMLSpanElement
@@ -124,7 +129,6 @@ function tick(): void {
   const strokesInPast20Seconds = state.strokes.filter(stroke => stroke > Date.now() - 20_000)
   state.strokes = strokesInPast20Seconds
   const currentSPM = strokesInPast20Seconds.length * 3
-  currentSPMEl.textContent = currentSPM.toFixed(0)
 
   if (currentSPM > state.maxSPM) {
     rowBtn.disabled = true
