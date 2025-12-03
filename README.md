@@ -26,9 +26,7 @@
 
 - Metronome style interaction with row button to provide active bonus when rowing with 'rhythm'
 - Display toast when autosaving
-- Display passive energy gain per second
 - Track distance per stroke
-- Add stroke distance to total distance when row button is clicked
 - Improve Milestones visualization (add animation)
 - Add fluctuations to speed to make it seem more realistic
 - Add the ability to add additional rowers to increase speed
