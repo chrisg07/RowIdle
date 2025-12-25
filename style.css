@@ -138,10 +138,39 @@ button:disabled {
   margin: 0.5rem 0 1.5rem;
 }
 
-.display-columns {
-  width: max-content;
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: repeat(auto-fix, minmax(240px, 320px));
-  gap: 1rem;
+
+
+/* --- Default styles for small screens (Mobile First) --- */
+.container {
+  padding: 0.25rem;
 }
+
+body {
+  margin: 0;
+}
+
+.ascii-logo {
+  font-size: 8px;
+  margin: 0;
+}
+
+.display-columns {
+  grid-auto-flow: row; /* Stacks items vertically */
+  grid-template-columns: 1fr; /* One full-width column */
+  width: 100%; /* Optional: allows container to span full width of the screen */
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 80%;
+    padding: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    width: 70%;
+    max-width: 1200px;
+  }
+}
+
