@@ -155,15 +155,23 @@ body {
 }
 
 .display-columns {
-  grid-auto-flow: row; /* Stacks items vertically */
-  grid-template-columns: 1fr; /* One full-width column */
-  width: 100%; /* Optional: allows container to span full width of the screen */
+  display: grid;;
+  grid-auto-flow: row; 
+  grid-template-columns: 1fr; 
+  width: 100%; 
 }
 
 @media (min-width: 768px) {
   .container {
     width: 80%;
     padding: 32px;
+  }
+
+  .display-columns {
+    grid-auto-flow: column; 
+    grid-template-columns: 1fr; 
+    gap: 0.5rem;
+    width: 100%; 
   }
 }
 
