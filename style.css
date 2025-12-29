@@ -124,7 +124,7 @@ button:disabled {
 }
 
 .ascii-logo {
-  font-family: "Fira Code", "JetBrains Mono", Consolas, Menlo, Monaco, monospace;
+  font-family: 'Fira Code', 'JetBrains Mono', Consolas, Menlo, Monaco, monospace;
   white-space: pre;
   line-height: 1.1;
   font-size: 12px; /* tweak to taste */
@@ -138,11 +138,9 @@ button:disabled {
   margin: 0.5rem 0 1.5rem;
 }
 
-
-
 /* --- Default styles for small screens (Mobile First) --- */
 .container {
-  padding: 0.25rem;
+  padding: 0.5rem;
 }
 
 body {
@@ -155,12 +153,13 @@ body {
 }
 
 .display-columns {
-  display: grid;;
-  grid-auto-flow: row; 
-  grid-template-columns: 1fr; 
-  width: 100%; 
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: 1fr;
+  width: 100%;
 }
 
+/* --- Styles for tablets --- */
 @media (min-width: 768px) {
   .container {
     width: 80%;
@@ -168,17 +167,17 @@ body {
   }
 
   .display-columns {
-    grid-auto-flow: column; 
-    grid-template-columns: 1fr; 
+    grid-auto-flow: column;
+    grid-template-columns: 1fr;
     gap: 0.5rem;
-    width: 100%; 
+    width: 100%;
   }
 }
 
+/* --- Styles for desktops and above --- */
 @media (min-width: 1024px) {
   .container {
     width: 70%;
     max-width: 1200px;
   }
 }
-

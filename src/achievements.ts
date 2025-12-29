@@ -1,4 +1,4 @@
-import { state } from './state'
+import { GameState, state } from './state'
 import { V_ESCAPE, V_LIFTOFF, V_ORBIT } from './physics'
 
 type AchievementType = 'speed' | 'distance' | 'upgrade'
@@ -66,7 +66,7 @@ export function updateAchievements(speed: number, distance: number) {
     const achieved =
       (achievement.type === 'speed' && speed >= achievement.threshold) ||
       (achievement.type === 'distance' && distance >= achievement.threshold) ||
-      (achievement.type === 'upgrade' && state.rowLevel >= achievement.threshold)
+      (achievement.type === 'upgrade' && state.strokeStrength >= achievement.threshold)
 
     if (achieved) {
       addAchievement(achievement.id)

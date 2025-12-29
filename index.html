@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>RowIdle</title>
     <link rel="stylesheet" href="/style.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
     <pre class="ascii-logo container">
@@ -16,52 +16,46 @@
  ░███    ░███ ░███ ░███ ░░███████████   ░███ ░███ ░███  ░███ ░███░░░  
  █████   █████░░██████   ░░████░████    █████░░████████ █████░░██████ 
 ░░░░░   ░░░░░  ░░░░░░     ░░░░ ░░░░    ░░░░░  ░░░░░░░░ ░░░░░  ░░░░░░  
-</pre>
+</pre
+    >
 
-  <div class="container">
-    <div id="intro">
-      <p class="note">
-        You are a lone rower with an impossible goal: row so hard and so fast you leave the planet.
-      </p>
-    </div>
+    <div class="container">
+      <div id="intro">
+        <p class="note">
+          You are a lone rower with an impossible goal: row so hard and so fast you leave the
+          planet.
+        </p>
+      </div>
 
-    <div class="display-columns">
-      <div class="stats-section">
-        <h2>Stats</h2>
-        <div id="stats">
-          <!-- Populated with JS -->
+      <div class="display-columns">
+        <div class="rower-section">
+          <h2>Rower</h2>
+          <pre id="rower-visual" class="rower-visual">~~~ \o/ ~~~</pre>
         </div>
-      </div>
 
-      <div class="actions-section">
-        <h2>Actions</h2>
-        <button title="Click to row. Spend energy and gain distance." id="row-button">Row</button>
-      </div>
-
-      <div id="upgrades-section" class="hidden">
-        <h2>Upgrades</h2>
-        <div class="upgrades">
-          
+        <div class="actions-section">
+          <h2>Actions</h2>
+          <button title="Click to row. Spend energy and gain distance." id="row-button">Row</button>
         </div>
-        <div class="upgrade">
-          <button id="upgrade-strength-button" title="Increase the distance gained each time you row. Increases energy cost.">
-            Stronger Stroke
-          <p class="note"><span id="upgrade-strength-cost">10</span> energy</p>
-          </button>
+
+        <div class="stats-section">
+          <h2>Stats</h2>
+          <div id="stats">
+            <!-- Populated with JS -->
+          </div>
         </div>
-      </div>
 
-      <div id="log-section" class="hidden">
-        <h2>Log</h2>
-        <ul id="log-list"></ul>
-      </div>
+        <div id="upgrades-section" class="hidden">
+          <h2>Upgrades</h2>
+          <div class="upgrades"></div>
+        </div>
 
-      <div class="rower-section">
-        <h2>Rower</h2>
-        <pre id="rower-visual" class="rower-visual">~~~ \o/ ~~~</pre>
+        <div id="log-section" class="hidden">
+          <h2>Log</h2>
+          <ul id="log-list"></ul>
+        </div>
       </div>
     </div>
-  </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

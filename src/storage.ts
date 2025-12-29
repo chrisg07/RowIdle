@@ -16,7 +16,7 @@ export function loadGame(): void {
     if (!raw) return
     const data = JSON.parse(raw) as Partial<GameState>
     if (typeof data.energy === 'number') state.energy = data.energy
-    if (typeof data.rowLevel === 'number') state.rowLevel = data.rowLevel
+    if (typeof data.strokeStrength === 'number') state.strokeStrength = data.strokeStrength
     if (typeof data.distance === 'number') state.distance = data.distance
 
     const loadedAchievements = (data.achievements ?? {}) as Partial<AchievementState>

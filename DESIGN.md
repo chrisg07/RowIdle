@@ -11,6 +11,7 @@ An incremental game centered around a rower gaining speed and other various bene
 ## Progression
 
 ### Rowing Across the Oceans
+
 - Initially start at rest
 - Player is required to manually click `Row` button, spending `Energy` to gain `Speed` and `Distance`. `Speed` eventually drops to zero while the player is not rowing so the player is required to continously interact with the `Row` mechanic.
 - Player reaches early `Distance` milestones that unlock some of the various upgrades in order to allow them to begin scaling their progression
@@ -28,10 +29,11 @@ An incremental game centered around a rower gaining speed and other various bene
 ### Exiting the Atmosphere
 
 - The player has overcome the exit velocity required in order to be able to exit the atmosphere
+
 ### Rowing Through Space
 
 - Performing a `Row` in space is initially extremely unrewarding (due to the vacuum of space)
-- The player is required to invest heavily in upgrades to begin moving at a reasonable pace. 
+- The player is required to invest heavily in upgrades to begin moving at a reasonable pace.
 
 ### Exiting the Solar System
 
@@ -47,7 +49,15 @@ An incremental game centered around a rower gaining speed and other various bene
 
 ## Upgrades
 
+At various progression checkpoints the player will gain access to additional upgrades. Some examples of progression checkpoints would be:
+
+- Reaching a certain distance
+- Rowing a certain number of times
+- Reaching a certain speed
+- Spending a certain amount of energy
+
 ### General
+
 - Passive `Energy` gain rate
 - `Distance` and `Speed` gained per `Row`. Increases `Energy` spent per `Row`
 - Reduce `Energy` spent per `Row`
@@ -65,7 +75,7 @@ An incremental game centered around a rower gaining speed and other various bene
 - Increase `Altitude` gain per `Row`, reduces `Distance` gained per `Row`
 - Reduce descent rate of `Altitude` while in the air
 
-### Space Upgrades  
+### Space Upgrades
 
 ## Interface
 
