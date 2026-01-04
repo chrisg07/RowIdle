@@ -66,7 +66,7 @@ export function updateAchievements(speed: number, distance: number) {
     const achieved =
       (achievement.type === 'speed' && speed >= achievement.threshold) ||
       (achievement.type === 'distance' && distance >= achievement.threshold) ||
-      (achievement.type === 'upgrade' && state.strokeStrength >= achievement.threshold)
+      (achievement.type === 'upgrade' && state.strength >= achievement.threshold)
 
     if (achieved) {
       addAchievement(achievement.id)

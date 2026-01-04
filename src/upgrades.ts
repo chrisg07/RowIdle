@@ -1,5 +1,5 @@
 import { GameState } from './state'
-import { STROKE_STRENGTH_UPGRADES } from './upgrades/strokeStrength'
+import { STRENGTH_UPGRADES } from './upgrades/strength'
 
 export type UpgradeConfig = {
   id: string
@@ -11,21 +11,39 @@ export type UpgradeConfig = {
   apply: (state: GameState, level: number) => void
 }
 
-export const UPGRADES: UpgradeConfig[] = [...STROKE_STRENGTH_UPGRADES]
+export const UPGRADES: UpgradeConfig[] = [...STRENGTH_UPGRADES]
 
 export function updateUpgrades(state: GameState) {
   for (const upgrade of UPGRADES) {
-    if (state.upgrades[upgrade.id]) continue
+    console.log("Checking upgrade level: ", upgrade.level);
+    console.log("Current player upgrade level: ", state.upgrades[upgrade.id] || 0);
+    
+    if (state.upgrades[upgrade.id] >= upgrade.level) continue
 
-    if (upgrade.discovered(state) && !document.getElementById(upgrade.id)) {
+    const upgradeBtnId = upgrade.id + '-' + upgrade.level
+    if (upgrade.discovered(state) && !document.getElementById(upgradeBtnId)) {
       const button = document.createElement('button')
-      button.id = upgrade.id
+      button.id = upgradeBtnId
       button.classList.add('upgrade')
+
       const titleSpan = document.createElement('div')
       titleSpan.innerText = upgrade.title
       const levelSpan = document.createElement('div')
       levelSpan.innerText = 'Level ' + upgrade.level
-      button.append(titleSpan, levelSpan)
+      const costSpan = document.createElement('div')
+      costSpan.innerText = 'Cost:  ' + upgrade.cost(upgrade.level) + ' energy'
+      button.append(titleSpan, levelSpan, costSpan)
+
+      button.addEventListener('click', () => {
+        const cost = upgrade.cost(upgrade.level)
+        if (state.energy >= cost) {
+          state.energy -= cost
+          state.upgrades[upgrade.id] = upgrade.level
+          upgrade.apply(state, upgrade.level)
+          button.remove()
+        }
+      })
+      
       const upgradeList = document.querySelector('#upgrades-section .upgrades')
       upgradeList?.append(button)
     }

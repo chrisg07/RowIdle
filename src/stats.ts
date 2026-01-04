@@ -10,7 +10,7 @@ export function createStatDisplays(): void {
     state.energyGain.toFixed(1)
   )
   statDisplays['row-level'] = new StatDisplay('row-level-display', 'Row Level', '', () =>
-    state.strokeStrength.toString()
+    state.strength.toString()
   )
   statDisplays['max-spm'] = new StatDisplay('max-spm-display', 'Max SPM', '', () =>
     state.maxSPM.toFixed(0)

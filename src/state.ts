@@ -2,7 +2,7 @@ export interface GameState {
   energy: number
   energyGain: number
   speed: number
-  strokeStrength: number
+  strength: number
   distance: number
   drag: number
   maxSPM: number
@@ -15,7 +15,7 @@ export let state: GameState = {
   energy: 0,
   energyGain: 0.5,
   speed: 0,
-  strokeStrength: 1,
+  strength: 1,
   distance: 0,
   drag: 0.4,
   maxSPM: 16,

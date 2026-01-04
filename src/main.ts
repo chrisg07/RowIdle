@@ -14,8 +14,6 @@ createStatDisplays()
 
 const rowBtn = document.getElementById('row-button') as HTMLButtonElement
 const upgradesSection = document.getElementById('upgrades-section') as HTMLDivElement
-const upgradeBtn = document.getElementById('upgrade-strength-button') as HTMLButtonElement
-const upgradeCostEl = document.getElementById('upgrade-strength-cost') as HTMLSpanElement
 
 const rowerVisualEl = document.getElementById('rower-visual') as HTMLPreElement | null
 
@@ -39,7 +37,7 @@ function updateUI(): void {
     display.update()
   }
 
-  if (state.energy >= 5 || state.strokeStrength > 0) {
+  if (state.energy >= 5 || state.strength > 0) {
     upgradesSection.classList.remove('hidden')
   }
 
@@ -49,19 +47,19 @@ function updateUI(): void {
 }
 
 rowBtn.addEventListener('click', () => {
-  const rowCost = state.strokeStrength
+  const rowCost = state.strength
   const rowDate = Date.now()
   state.strokes.push(rowDate)
 
   if (state.energy > rowCost) {
     state.energy -= rowCost
-    state.speed += 3 * state.strokeStrength
+    state.speed += 3 * state.strength
   }
   updateUI()
 })
 
 function tick(): void {
-  state.energyGain = state.strokeStrength * 0.5
+  state.energyGain = state.strength * 0.5
   state.energy += state.energyGain
   state.distance += state.speed
   state.speed = state.speed * state.drag

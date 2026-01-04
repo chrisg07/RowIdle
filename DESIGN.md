@@ -55,6 +55,8 @@ At various progression checkpoints the player will gain access to additional upg
 - Rowing a certain number of times
 - Reaching a certain speed
 - Spending a certain amount of energy
+- Auto SPM
+- Strength (Distance per row)
 
 ### General
 
@@ -85,3 +87,4 @@ At various progression checkpoints the player will gain access to additional upg
   - Columns will be 360px wide
 - A simple reveal animation will be used when new UI elements are exposed at various progression points of the game.
 - A scrolling list of `Milestone`s is updated whenever the player reaches a various progression points like unlocking upgrades, reaching certain `Distance`s, etc.
+  - Possible "Mission Log" text could be presented to user through text scrolling past in Rower ASCII visualization
