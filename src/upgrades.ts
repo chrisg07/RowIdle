@@ -12,7 +12,12 @@ export type UpgradeConfig = {
 }
 
 export const UPGRADES: UpgradeConfig[] = [...STRENGTH_UPGRADES]
+export type UpgradeId = (typeof UPGRADES)[number]['id']
 
+export function createDefaultUpgradeState(): Record<string, number> {
+  return Object.fromEntries(UPGRADES.map(m => [m.id, 0])) as Record<string, number>
+}
+  
 export function updateUpgrades(state: GameState) {
   for (const upgrade of UPGRADES) {
     console.log("Checking upgrade level: ", upgrade.level);

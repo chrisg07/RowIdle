@@ -1,3 +1,5 @@
+import { UpgradeState } from "./upgrades"
+
 export interface GameState {
   energy: number
   energyGain: number

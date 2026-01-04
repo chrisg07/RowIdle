@@ -8,8 +8,6 @@ import { updateUpgrades } from './upgrades'
 export const SAVE_KEY = 'orbital-rower-save-v1'
 
 export let statDisplays: { [key: string]: StatDisplay } = {}
-// export let upgradeDisplays: { [key: string]: UpgradeDisplay}
-
 createStatDisplays()
 
 const rowBtn = document.getElementById('row-button') as HTMLButtonElement
