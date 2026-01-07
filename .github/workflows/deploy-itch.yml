@@ -1,0 +1,36 @@
+name: Deploy to itch.io
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Setup butler
+        uses: remarkablegames/setup-butler@v2
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+
+      - name: Push to itch.io
+        run: butler push dist criscotheshiz/rowidle:html5 --userversion "${{ github.ref_name }}"
