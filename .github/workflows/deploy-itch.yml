@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    env:
+        BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+
 
     steps:
       - name: Checkout
@@ -29,8 +32,6 @@ jobs:
 
       - name: Setup butler
         uses: remarkablegames/setup-butler@v2
-        env:
-          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
 
       - name: Push to itch.io
         run: butler push dist criscotheshiz/rowidle:html5 --userversion "${{ github.ref_name }}"
