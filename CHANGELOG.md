@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/chrisg07/RowIdle/compare/v0.3.0...v0.3.1) (2026-01-07)
+
+
+### Bug Fixes
+
+* github action secret reference ([d51385d](https://github.com/chrisg07/RowIdle/commit/d51385df3d78cc4374ce52e351ff27255f243f2c))
+
 ## [0.3.0](https://github.com/chrisg07/RowIdle/compare/v0.2.1...v0.3.0) (2026-01-07)
 
 
