@@ -11,6 +11,7 @@ export let statDisplays: { [key: string]: StatDisplay } = {}
 createStatDisplays()
 
 const rowBtn = document.getElementById('row-button') as HTMLButtonElement
+const saveBtn = document.getElementById('save-button') as HTMLButtonElement
 const upgradesSection = document.getElementById('upgrades-section') as HTMLDivElement
 
 const rowerVisualEl = document.getElementById('rower-visual') as HTMLPreElement | null
@@ -54,6 +55,10 @@ rowBtn.addEventListener('click', () => {
     state.speed += 3 * state.strength
   }
   updateUI()
+})
+
+saveBtn.addEventListener('click', () => {
+  saveGame()
 })
 
 function tick(): void {
