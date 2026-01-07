@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/chrisg07/RowIdle/compare/v0.2.1...v0.3.0) (2026-01-07)
+
+
+### Features
+
+* display energy gain rate ([33018ff](https://github.com/chrisg07/RowIdle/commit/33018ffa6ec41dda74226d48738850a450e5a714))
+* load upgrades from local storage if present ([6b9eda6](https://github.com/chrisg07/RowIdle/commit/6b9eda6afc5150c9fdd88c72d0a8d76abb76ead8))
+* mobile styles ([fb856e8](https://github.com/chrisg07/RowIdle/commit/fb856e8a23cbd3f54350c684fc0bd34d0efee658))
+* save button ([3c3024d](https://github.com/chrisg07/RowIdle/commit/3c3024da066302fce4711f86dcc4dc7ae6395ae1))
+* Upgrades are now rendered based on configuration objects ([631d5f9](https://github.com/chrisg07/RowIdle/commit/631d5f93b89d4d51c0ca28b5e1eb393c682ef651))
+
+
+### Bug Fixes
+
+* improved upgrade display ([73d1d9e](https://github.com/chrisg07/RowIdle/commit/73d1d9e2c5cd3c8e3125ad15f50c88e0a7a79e54))
+
 ### [0.2.1](https://github.com/chrisg07/RowIdle/compare/v0.2.0...v0.2.1) (2025-11-28)
 
 
