@@ -1,9 +1,8 @@
-name: Deploy to itch.io
+name: Deploy to itch.io (beta)
 
 on:
   push:
-    tags:
-      - "v*"
+    branches: [main]
 
 jobs:
   deploy:
@@ -11,8 +10,7 @@ jobs:
     permissions:
       contents: read
     env:
-        BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-
+      BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
 
     steps:
       - name: Checkout
@@ -33,5 +31,7 @@ jobs:
       - name: Setup butler
         uses: remarkablegames/setup-butler@v2
 
-      - name: Push to itch.io
-        run: butler push dist criscotheshiz/rowidle:html5 --userversion "${{ github.ref_name }}"
+      - name: Push to itch.io (beta)
+        run: |
+          SHORT_SHA="${GITHUB_SHA::7}"
+          butler push dist criscotheshiz/rowidle:html5-beta --userversion "beta-${SHORT_SHA}"

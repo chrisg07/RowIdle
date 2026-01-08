@@ -1,0 +1,51 @@
+name: Promote to itch.io (stable)
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Git ref to promote (tag like v0.3.0, branch, or SHA)"
+        required: true
+        default: "main"
+      version:
+        description: "Version label shown on itch (e.g. v0.3.0). Leave blank to use ref."
+        required: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+
+    steps:
+      - name: Checkout ref
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Setup butler
+        uses: remarkablegames/setup-butler@v2
+
+      - name: Push to itch.io (stable)
+        run: |
+          if [ -n "${{ inputs.version }}" ]; then
+            VER="${{ inputs.version }}"
+          else
+            VER="${{ inputs.ref }}"
+          fi
+
+          butler push dist criscotheshiz/rowidle:html5 --userversion "${VER}"
