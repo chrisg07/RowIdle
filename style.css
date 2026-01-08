@@ -152,15 +152,23 @@ body {
   margin: 0;
 }
 
-#row-button {
-  width: 100%;
-}
-
 .display-columns {
   display: grid;
   grid-auto-flow: row;
   grid-template-columns: 1fr;
   width: 100%;
+}
+
+.actions-section {
+  display: flex;
+  flex-direction: column;
+}
+
+#row-button {
+  width: 80px;
+  user-select: none;      /* prevent text selection */
+  -webkit-user-select: none;
+  touch-action: none;     /* prevents long-press behaviors */
 }
 
 /* --- Styles for tablets --- */

@@ -31,6 +31,46 @@ function updateRowerVisual(speed: number): void {
   rowerVisualEl.textContent = ROW_FRAMES[rowFrameIndex]
 }
 
+let isHolding = false;
+let pointerX = 0;
+let pointerY = 0;
+
+window.addEventListener("pointermove", (e) => {
+  pointerX = e.clientX;
+  pointerY = e.clientY;
+}, { passive: true });
+
+let rafId: number | null = null;
+
+function startTrackingPointerOverButton() {
+  const tick = () => {
+    if (!isHolding) return;
+
+    const rect = rowBtn.getBoundingClientRect();
+    const inside =
+      pointerX >= rect.left &&
+      pointerX <= rect.right &&
+      pointerY >= rect.top &&
+      pointerY <= rect.bottom;
+
+    if (!inside) {
+      endRow();         // stops animation + logs
+      isHolding = false;
+      return;
+    }
+
+    rafId = requestAnimationFrame(tick);
+  };
+
+  rafId = requestAnimationFrame(tick);
+}
+
+function stopTrackingPointerOverButton() {
+  if (rafId !== null) cancelAnimationFrame(rafId);
+  rafId = null;
+}
+
+
 function updateUI(): void {
   for (const display of Object.values(statDisplays)) {
     display.update()
@@ -45,22 +85,86 @@ function updateUI(): void {
   updateRowerVisual(state.speed)
 }
 
-rowBtn.addEventListener('click', function (e) {
-  const rowCost = state.strength
-  const rowDate = Date.now()
-  state.strokes.push(rowDate)
+let rowStart = 0;
+let rowEnd = 0;
+
+let rowAnim: Animation | null = null;
+const START_TRANSFORM = "translateX(0px)";
+const TRAVEL_PX = 220;
+
+function startRowButtonAnim() {
+  const strokeSeconds = 60 / state.maxSPM;
+
+  rowAnim?.cancel();
+  rowBtn.style.transform = START_TRANSFORM;
+
+  rowAnim = rowBtn.animate(
+    [
+      { transform: "translateX(0px)" },
+      { transform: `translateX(${TRAVEL_PX}px)` },
+      { transform: "translateX(0px)" },
+    ],
+    {
+      duration: strokeSeconds * 1000,
+      easing: "ease-in-out",
+      iterations: 1,
+      fill: "forwards",
+    }
+  );
+}
+
+function stopRowButtonAnim() {
+  rowAnim?.cancel();
+  rowAnim = null;
+  rowBtn.style.transform = START_TRANSFORM;
+}
+
+rowBtn.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+});
+
+rowBtn.addEventListener("pointerdown", (e) => {
+  rowStart = performance.now();
+  isHolding = true;
+
+  pointerX = e.clientX;
+  pointerY = e.clientY;
+
+  rowBtn.setPointerCapture(e.pointerId);
+
+  startRowButtonAnim();
+  startTrackingPointerOverButton();
+});
+
+function endRow() {
+  rowEnd = performance.now();
+  console.log("Rowed for:", Math.round(rowEnd - rowStart), "ms");
+
+  isHolding = false;
+  stopTrackingPointerOverButton();
+  stopRowButtonAnim();
+}
+
+rowBtn.addEventListener("pointerup", (e) => {
+  if (rowBtn.hasPointerCapture(e.pointerId)) rowBtn.releasePointerCapture(e.pointerId);
+  endRow();
+});
+
+rowBtn.addEventListener("pointercancel", endRow);
+window.addEventListener("blur", endRow);
+
+
+rowBtn.addEventListener("click", function () {
+  const rowCost = state.strength;
+  const rowDate = Date.now();
+  state.strokes.push(rowDate);
 
   if (state.energy > rowCost) {
-    state.energy -= rowCost
-    state.speed += 3 * state.strength
-    rowBtn.disabled = true
-    const rowDuration = 60 / state.maxSPM
-    const strokeDuration = rowDuration / 2
-    setTimeout(() => {
-      this.disabled = false
-    }, strokeDuration * 1000)
+    state.energy -= rowCost;
+    state.speed += 3 * state.strength;
   }
-  updateUI()
+
+  updateUI();
 });
 
 saveBtn.addEventListener('click', () => {
