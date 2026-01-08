@@ -124,6 +124,7 @@ rowBtn.addEventListener("contextmenu", (e) => {
 });
 
 rowBtn.addEventListener("pointerdown", (e) => {
+  e.preventDefault();
   rowStart = performance.now();
   isHolding = true;
 
