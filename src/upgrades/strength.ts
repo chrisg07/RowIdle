@@ -34,7 +34,7 @@ export const STRENGTH_UPGRADES: UpgradeConfig[] = [
       return true
     },
     apply: function (state: GameState, level: number) {
-      state.strength *= 2
+      state.strength = state.baseStrength * Math.pow(2, level)    
     },
   },
 ]

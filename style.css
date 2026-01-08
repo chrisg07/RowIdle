@@ -152,6 +152,10 @@ body {
   margin: 0;
 }
 
+#row-button {
+  width: 100%;
+}
+
 .display-columns {
   display: grid;
   grid-auto-flow: row;

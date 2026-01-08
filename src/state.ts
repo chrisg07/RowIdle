@@ -4,6 +4,7 @@ export interface GameState {
   energy: number
   energyGain: number
   speed: number
+  baseStrength: number
   strength: number
   distance: number
   drag: number
@@ -17,6 +18,7 @@ export let state: GameState = {
   energy: 0,
   energyGain: 0.5,
   speed: 0,
+  baseStrength: 1,
   strength: 1,
   distance: 0,
   drag: 0.4,
