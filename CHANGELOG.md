@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/chrisg07/RowIdle/compare/v0.3.1...v0.4.0) (2026-01-08)
+
+
+### Features
+
+* disable row button for a duration based on maxSPM ([5d8b38e](https://github.com/chrisg07/RowIdle/commit/5d8b38e364b7b5e0ef035bc4e81b9870eef50faf))
+* end row on animation end ([0cec46d](https://github.com/chrisg07/RowIdle/commit/0cec46dea16392411500628b2696fae022642870))
+* prevent default on pointerdown for row button ([0341511](https://github.com/chrisg07/RowIdle/commit/0341511308c65d559a8dd6b52aeb58e4514af3a8))
+* row button now moves and user must stay within its bounds to complete the row successfully or it aborts ([5f1eddb](https://github.com/chrisg07/RowIdle/commit/5f1eddb3ce1de8638e075b08c4bc4bd91a577cfa))
+
+
+### Bug Fixes
+
+* increase height of row button for a11y ([5c70b14](https://github.com/chrisg07/RowIdle/commit/5c70b14a2741979c681cff9d9ecdbdbcfe021565))
+* made strength upgrade idempotent ([a030bd8](https://github.com/chrisg07/RowIdle/commit/a030bd84b56cb0e5ff1562402f866ff4764c1690))
+* updates to prevent multiple calls of endRow ([3b27be4](https://github.com/chrisg07/RowIdle/commit/3b27be45804a4da1b2b16d7d5813358578362993))
+
 ### [0.3.1](https://github.com/chrisg07/RowIdle/compare/v0.3.0...v0.3.1) (2026-01-07)
 
 
