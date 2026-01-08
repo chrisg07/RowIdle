@@ -34,4 +34,4 @@ jobs:
       - name: Push to itch.io (beta)
         run: |
           SHORT_SHA="${GITHUB_SHA::7}"
-          butler push dist criscotheshiz/rowidle:html5-beta --userversion "beta-${SHORT_SHA}"
+          butler push dist criscotheshiz/rowidle-beta:html5 --userversion "beta-${SHORT_SHA}"
