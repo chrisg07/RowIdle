@@ -45,7 +45,7 @@ function updateUI(): void {
   updateRowerVisual(state.speed)
 }
 
-rowBtn.addEventListener('click', () => {
+rowBtn.addEventListener('click', function (e) {
   const rowCost = state.strength
   const rowDate = Date.now()
   state.strokes.push(rowDate)
@@ -53,9 +53,15 @@ rowBtn.addEventListener('click', () => {
   if (state.energy > rowCost) {
     state.energy -= rowCost
     state.speed += 3 * state.strength
+    rowBtn.disabled = true
+    const rowDuration = 60 / state.maxSPM
+    const strokeDuration = rowDuration / 2
+    setTimeout(() => {
+      this.disabled = false
+    }, strokeDuration * 1000)
   }
   updateUI()
-})
+});
 
 saveBtn.addEventListener('click', () => {
   saveGame()
@@ -66,12 +72,6 @@ function tick(): void {
   state.energy += state.energyGain
   state.distance += state.speed
   state.speed = state.speed * state.drag
-
-  if (getCurrentSPM() > state.maxSPM) {
-    rowBtn.disabled = true
-  } else {
-    rowBtn.disabled = false
-  }
 
   updateUI()
 }
