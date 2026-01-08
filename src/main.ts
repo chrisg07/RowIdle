@@ -54,7 +54,7 @@ function startTrackingPointerOverButton() {
       pointerY <= rect.bottom;
 
     if (!inside) {
-      endRow();         // stops animation + logs
+      endRow("exited");         // stops animation + logs
       isHolding = false;
       return;
     }
@@ -89,13 +89,15 @@ let rowStart = 0;
 let rowEnd = 0;
 
 let rowAnim: Animation | null = null;
+let strokeActive = false;
+let activePointerId: number | null = null;
 const START_TRANSFORM = "translateX(0px)";
 const TRAVEL_PX = 220;
 
 function startRowButtonAnim() {
   const strokeSeconds = 60 / state.maxSPM;
   const strokeMs = strokeSeconds * 1000;
-  
+
   rowAnim?.cancel();
   rowBtn.style.transform = START_TRANSFORM;
 
@@ -105,16 +107,17 @@ function startRowButtonAnim() {
       { transform: `translateX(${TRAVEL_PX}px)` }
     ],
     {
-      duration: strokeMs / 2,     // half stroke to go out
+      duration: strokeMs / 2, 
       easing: "ease-in-out",
-      iterations: 2,              // out + back
-      direction: "alternate",     // 1st iter forward, 2nd backward
-      fill: "none"                // don't freeze mid-way; we reset in endRow anyway
+      iterations: 2,
+      direction: "alternate",
+      fill: "none"
     }
   );
 
   rowAnim.onfinish = () => {
-    endRow(); // ✅ forced end at end of stroke
+    rowBtn.style.transform = START_TRANSFORM; 
+    endRow("finish");
   };
 }
 
@@ -130,6 +133,9 @@ rowBtn.addEventListener("contextmenu", (e) => {
 
 rowBtn.addEventListener("pointerdown", (e) => {
   e.preventDefault();
+  if (strokeActive) return;
+  strokeActive = true;
+
   rowStart = performance.now();
   isHolding = true;
 
@@ -142,22 +148,26 @@ rowBtn.addEventListener("pointerdown", (e) => {
   startTrackingPointerOverButton();
 });
 
-function endRow() {
+function endRow(reason: "finish" | "up" | "cancel" | "blur" | "exited" = "finish") {
+  if (!strokeActive) return;
+  strokeActive = false;
+
   rowEnd = performance.now();
-  console.log("Rowed for:", Math.round(rowEnd - rowStart), "ms");
+  console.log(`Row ended (${reason}):`, Math.round(rowEnd - rowStart), "ms");
+
+  if (activePointerId !== null && rowBtn.hasPointerCapture(activePointerId)) {
+    rowBtn.releasePointerCapture(activePointerId);
+  }
+  activePointerId = null;
 
   isHolding = false;
   stopTrackingPointerOverButton();
   stopRowButtonAnim();
 }
 
-rowBtn.addEventListener("pointerup", (e) => {
-  if (rowBtn.hasPointerCapture(e.pointerId)) rowBtn.releasePointerCapture(e.pointerId);
-  endRow();
-});
-
-rowBtn.addEventListener("pointercancel", endRow);
-window.addEventListener("blur", endRow);
+rowBtn.addEventListener("pointerup", () => endRow("up"));
+rowBtn.addEventListener("pointercancel", () => endRow("cancel"));
+window.addEventListener("blur", () => endRow("blur"));
 
 
 rowBtn.addEventListener("click", function () {
