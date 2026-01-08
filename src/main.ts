@@ -94,23 +94,28 @@ const TRAVEL_PX = 220;
 
 function startRowButtonAnim() {
   const strokeSeconds = 60 / state.maxSPM;
-
+  const strokeMs = strokeSeconds * 1000;
+  
   rowAnim?.cancel();
   rowBtn.style.transform = START_TRANSFORM;
 
   rowAnim = rowBtn.animate(
     [
       { transform: "translateX(0px)" },
-      { transform: `translateX(${TRAVEL_PX}px)` },
-      { transform: "translateX(0px)" },
+      { transform: `translateX(${TRAVEL_PX}px)` }
     ],
     {
-      duration: strokeSeconds * 1000,
+      duration: strokeMs / 2,     // half stroke to go out
       easing: "ease-in-out",
-      iterations: 1,
-      fill: "forwards",
+      iterations: 2,              // out + back
+      direction: "alternate",     // 1st iter forward, 2nd backward
+      fill: "none"                // don't freeze mid-way; we reset in endRow anyway
     }
   );
+
+  rowAnim.onfinish = () => {
+    endRow(); // ✅ forced end at end of stroke
+  };
 }
 
 function stopRowButtonAnim() {
